@@ -3,36 +3,39 @@ const db = require('../models/productModel');
 // Defining methods for the postsController
 module.exports = {
   findAll: function (req, res) {
-    db
-    //.find(req.query)
-      // .populate({
-      //   path: 'isReviewed'
-      // })
-      .aggregate([
+    // db.find(req.query)
+    //    .populate({
+    //      path: 'isReviewed'
+    // })
+    // .sort({ created: -1 })
+    // .then(
+      db.aggregate([ 
         {
           $lookup: {
-            from: 'Review',
+            from: 'reviews',
             localField: 'isReviewed',
             foreignField: '_id',
             as: 'reviews',
           },
-        },
+        },      
         { $unwind: '$reviews' },
         {
           $group: {
-            _id: null,
+            _id: '$_id',
             averageStars: {
               $avg: '$reviews.totalStars',
             },
           },
         },
+        // { $addFields: {
+        //   averageStars: { $avg: '$reviews.averageStars' }
+        // }}
         // {$project: {
         //     stars: {$add: ["$totalStars", {$ifNull: ["$reviews.totalStars", 0 ]}]}
         // }}
       ])
-      .sort({ created: -1 })
       .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
+      .catch((err) => res.status(422).json(err));     
   },
   findById: function (req, res) {
     db.findById(req.params.id)
