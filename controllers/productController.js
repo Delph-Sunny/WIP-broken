@@ -11,7 +11,7 @@ module.exports = {
       .aggregate([
         {
           $lookup: {
-            from: 'Review',
+            from: 'reviews',
             localField: 'isReviewed',
             foreignField: '_id',
             as: 'reviews',
