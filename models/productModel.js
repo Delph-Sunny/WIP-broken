@@ -58,7 +58,7 @@ const ProductSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'Review',
-      default: null,
+      default: 0,
     },
   ],
   brand: {
