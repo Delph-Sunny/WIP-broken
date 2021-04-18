@@ -20,6 +20,7 @@ const isReviewableSchema = new Schema({
   },
   totalStars: {
     type: Number,
+    default: 0,
   },
   reviewBody: {
     type: String,
@@ -33,12 +34,6 @@ const isReviewableSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  product: [
-    {
-      type: Schema.Types.String,
-      ref: 'Product',
-    },
-  ],
   created: {
     type: Date,
     default: Date.now,
